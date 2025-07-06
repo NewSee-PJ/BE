@@ -1,5 +1,7 @@
 package dgu.newsee.global;
 
+import dgu.newsee.global.payload.ApiResponse;
+import dgu.newsee.global.payload.ResponseCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,8 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RootController {
 
     @GetMapping("/")
-    public String healthCheck() {
-        return "I'm healthy!";
+    public ApiResponse<String> healthCheck() {
+        return ApiResponse.success("서버 정상 작동 중입니다.", ResponseCode.COMMON_SUCCESS);
     }
-
 }
