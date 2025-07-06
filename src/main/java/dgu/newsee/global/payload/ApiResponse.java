@@ -1,0 +1,33 @@
+package dgu.newsee.global.payload;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+@AllArgsConstructor
+public class ApiResponse<T> {
+    private boolean isSuccess;
+    private String code;
+    private String message;
+    private T result;
+
+    public static <T> ApiResponse<T> success(T result, ResponseCode code) {
+        return ApiResponse.<T>builder()
+                .isSuccess(true)
+                .code(code.getCode())
+                .message(code.getMessage())
+                .result(result)
+                .build();
+    }
+
+    public static <T> ApiResponse<T> failure(ResponseCode code) {
+        return ApiResponse.<T>builder()
+                .isSuccess(false)
+                .code(code.getCode())
+                .message(code.getMessage())
+                .result(null)
+                .build();
+    }
+}
