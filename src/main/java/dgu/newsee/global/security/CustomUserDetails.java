@@ -1,9 +1,7 @@
 package dgu.newsee.global.security;
 
 import dgu.newsee.domain.user.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +28,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override public String getPassword() { return null; } // OAuth 기반이라 null
-    @Override public String getUsername() { return email; }
+    @Override public String getUsername() { return String.valueOf(userId); }
     @Override public boolean isAccountNonExpired() { return true; }
     @Override public boolean isAccountNonLocked() { return true; }
     @Override public boolean isCredentialsNonExpired() { return true; }
