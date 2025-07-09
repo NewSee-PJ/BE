@@ -1,5 +1,6 @@
 package dgu.newsee.domain.user.converter;
 
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
 import dgu.newsee.domain.user.dto.UserProfile;
 import dgu.newsee.domain.user.entity.Level;
@@ -33,5 +34,16 @@ public class UserConverter {
                 user.getLevel().toString(),
                 isNew
         );
+    }
+
+    public static ProfileUpdateResponse toProfileUpdateResponse(User user) {
+        return ProfileUpdateResponse.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .provider(user.getProvider())
+                .profileImage(user.getProfileImage())
+                .level(user.getLevel())
+                .build();
     }
 }

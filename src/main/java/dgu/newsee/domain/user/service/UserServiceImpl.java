@@ -3,17 +3,18 @@ package dgu.newsee.domain.user.service;
 import dgu.newsee.domain.user.converter.UserConverter;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
 import dgu.newsee.domain.user.dto.UserProfile;
-import dgu.newsee.domain.user.entity.Role;
 import dgu.newsee.domain.user.entity.User;
 import dgu.newsee.domain.user.repository.UserRepository;
+import dgu.newsee.global.exception.UserException;
+import dgu.newsee.global.payload.ResponseCode;
 import dgu.newsee.global.security.JwtTokenProvider;
-import dgu.newsee.global.security.OAuthProvider;
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
+import dgu.newsee.domain.user.dto.UserDTO.UserRequest.ProfileUpdateRequest;
 import dgu.newsee.global.security.OAuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -49,5 +50,15 @@ public class UserServiceImpl implements UserService {
 
         // 4. 응답 변환
         return UserConverter.toUserAuthResponse(user, accessToken, refreshToken, isNew);
+    }
+
+    @Override
+    public ProfileUpdateResponse updateProfile(String userId, ProfileUpdateRequest request) {
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
+
+        if (request.getName() != null) user.updateName(request.getName());
+
+        return UserConverter.toProfileUpdateResponse(user);
     }
 }

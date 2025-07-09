@@ -1,5 +1,7 @@
 package dgu.newsee.domain.user.dto;
 
+import dgu.newsee.domain.user.entity.Level;
+import dgu.newsee.global.security.OAuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +13,12 @@ public class UserDTO {
         @NoArgsConstructor
         public static class SocialLoginRequest {
             private String accessToken;
+        }
+
+        @Getter
+        @NoArgsConstructor
+        public static class ProfileUpdateRequest {
+            private String name;
         }
     }
 
@@ -29,6 +37,18 @@ public class UserDTO {
             private String refreshToken;
             private String level;
             private boolean isNew; // 신규 가입 여부
+        }
+
+        @Getter
+        @Builder
+        @AllArgsConstructor
+        public static class ProfileUpdateResponse {
+            private Long userId;
+            private String email;
+            private String name;
+            private OAuthProvider provider;
+            private String profileImage;
+            private Level level;
         }
     }
 }
