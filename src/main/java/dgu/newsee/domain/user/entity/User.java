@@ -20,10 +20,15 @@ public class User extends BaseEntity {
     private String name;
     private String email;
     private LocalDate joinDate;
+    private Level level;
     private String profileImage;
     @Enumerated(EnumType.STRING)
     private OAuthProvider provider;
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
     private String refreshToken;
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }
