@@ -22,7 +22,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/api/user/kakao"
                         ).permitAll()
 
                         // 그 외 모든 요청은 인증 필요
