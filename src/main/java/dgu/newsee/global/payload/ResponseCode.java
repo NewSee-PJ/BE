@@ -1,11 +1,12 @@
 package dgu.newsee.global.payload;
 
+import dgu.newsee.global.exception.BaseErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ResponseCode {
+public enum ResponseCode implements BaseErrorCode {
     // ✅ 공통
     COMMON_SUCCESS(ResponseCodeType.SUCCESS, "COMMON200", "성공입니다."),
     COMMON_FAIL(ResponseCodeType.ERROR, "COMMON500", "서버 오류입니다."),

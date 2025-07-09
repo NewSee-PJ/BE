@@ -13,6 +13,10 @@ public class ApiResponse<T> {
     private String message;
     private T result;
 
+    public static <T> ApiResponse<T> success(T result) {
+        return success(result, ResponseCode.COMMON_SUCCESS);
+    }
+
     public static <T> ApiResponse<T> success(T result, ResponseCode code) {
         return ApiResponse.<T>builder()
                 .isSuccess(true)
