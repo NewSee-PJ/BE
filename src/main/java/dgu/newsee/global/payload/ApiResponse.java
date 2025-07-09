@@ -26,11 +26,11 @@ public class ApiResponse<T> {
                 .build();
     }
 
-    public static <T> ApiResponse<T> failure(ResponseCode code) {
+    public static <T> ApiResponse<T> failure(ErrorReasonDTO reason) {
         return ApiResponse.<T>builder()
                 .isSuccess(false)
-                .code(code.getCode())
-                .message(code.getMessage())
+                .code(reason.getCode())
+                .message(reason.getMessage())
                 .result(null)
                 .build();
     }
