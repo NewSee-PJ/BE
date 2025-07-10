@@ -10,6 +10,7 @@ public enum ResponseCode implements BaseErrorCode {
     // ✅ 공통
     COMMON_SUCCESS(ResponseCodeType.SUCCESS, "COMMON200", "성공입니다.", HttpStatus.OK),
     COMMON_FAIL(ResponseCodeType.ERROR, "COMMON500", "서버 오류입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    COMMON_NOT_FOUND(ResponseCodeType.ERROR, "COMMON404", "요청한 리소스를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
 
     // ✅ 인증 관련
     USER_UNAUTHORIZED(ResponseCodeType.ERROR, "AUTH401", "인증되지 않은 사용자입니다.", HttpStatus.UNAUTHORIZED),
