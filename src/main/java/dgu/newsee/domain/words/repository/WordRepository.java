@@ -10,4 +10,6 @@ import java.util.List;
 public interface WordRepository extends JpaRepository<Word, Long> {
 
     List<Word> findByTermContainingOrDescriptionContaining(String termKeyword, String descKeyword);
+
+    boolean existsByTerm(String term);
 }

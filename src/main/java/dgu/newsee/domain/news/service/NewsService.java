@@ -5,6 +5,7 @@ import dgu.newsee.domain.news.entity.News;
 import dgu.newsee.domain.news.repository.NewsRepository;
 import dgu.newsee.domain.news.util.NewsCrawlResult;
 import dgu.newsee.domain.news.util.NewsCrawler;
+import dgu.newsee.domain.transformednews.service.TransformedNewsService;
 import dgu.newsee.domain.user.entity.User;
 import dgu.newsee.domain.user.repository.UserRepository;
 import dgu.newsee.domain.news.entity.SavedNews;
@@ -21,6 +22,7 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final UserRepository userRepository;
     private final SavedNewsRepository savedNewsRepository;
+    private final TransformedNewsService transformedService;
 
     @Transactional
     public News crawlAndSave(NewsCrawlRequestDTO request, Long userId) {
@@ -45,6 +47,8 @@ public class NewsService {
                     .originalUrl(url)
                     .build();
             newsRepository.save(news);
+
+            transformedService.requestTransformAndSave(news.getId(), null);
 
             // 사용자 조회
             User user = userRepository.findById(userId)
