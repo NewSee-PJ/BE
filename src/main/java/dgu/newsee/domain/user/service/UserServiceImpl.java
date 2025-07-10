@@ -2,7 +2,9 @@ package dgu.newsee.domain.user.service;
 
 import dgu.newsee.domain.user.converter.UserConverter;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.LevelResponse;
 import dgu.newsee.domain.user.dto.UserProfile;
+import dgu.newsee.domain.user.entity.Level;
 import dgu.newsee.domain.user.entity.User;
 import dgu.newsee.domain.user.repository.UserRepository;
 import dgu.newsee.global.exception.UserException;
@@ -10,6 +12,8 @@ import dgu.newsee.global.payload.ResponseCode;
 import dgu.newsee.global.security.JwtTokenProvider;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.ProfileUpdateRequest;
+import dgu.newsee.domain.user.dto.UserDTO.UserRequest.LevelRequest;
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserInfoResponse;
 import dgu.newsee.global.security.OAuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,5 +64,57 @@ public class UserServiceImpl implements UserService {
         if (request.getName() != null) user.updateName(request.getName());
 
         return UserConverter.toProfileUpdateResponse(user);
+    }
+
+    @Override
+    public LevelResponse registerLevel(String userId, LevelRequest request) {
+        if (userId == null) {
+            // 비로그인 사용자
+            return LevelResponse.builder()
+                    .userId(null)
+                    .name(null)
+                    .level(Level.MEDIUM) // 무조건 중으로 설정
+                    .build();
+        }
+
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
+
+        Level level = parseLevel(request.getLevel());
+        user.updateLevel(level);
+        userRepository.save(user);
+
+        return UserConverter.toLevelResponse(user);
+    }
+
+    @Override
+    public LevelResponse updateLevel(String userId, LevelRequest request) {
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
+
+        Level level = parseLevel(request.getLevel());
+        user.updateLevel(level);
+        userRepository.save(user);
+
+        return UserConverter.toLevelResponse(user);
+
+    }
+
+    private Level parseLevel(String levelString) {
+        if (levelString == null) return Level.MEDIUM;
+        return switch (levelString) {
+            case "상" -> Level.HIGH;
+            case "중" -> Level.MEDIUM;
+            case "하" -> Level.LOW;
+            default -> Level.MEDIUM;
+        };
+    }
+
+    @Override
+    public UserInfoResponse getUserInfo(String userId) {
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
+
+        return UserConverter.toUserInfoResponse(user);
     }
 }

@@ -18,6 +18,7 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String name;
+    @Column(unique = true)
     private String email;
     private LocalDate joinDate;
     private Level level;
@@ -34,5 +35,9 @@ public class User extends BaseEntity {
 
     public void updateName(String name) {
         this.name = name;
+    }
+
+    public void updateLevel(Level level) {
+        this.level = level;
     }
 }
