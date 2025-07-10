@@ -20,6 +20,12 @@ public class UserDTO {
         public static class ProfileUpdateRequest {
             private String name;
         }
+
+        @Getter
+        @NoArgsConstructor
+        public static class LevelRequest {
+            private String level;
+        }
     }
 
     public static class UserResponse {
@@ -48,6 +54,15 @@ public class UserDTO {
             private String name;
             private OAuthProvider provider;
             private String profileImage;
+            private Level level;
+        }
+
+        @Getter
+        @Builder
+        @AllArgsConstructor
+        public static class LevelResponse {
+            private Long userId;
+            private String name;
             private Level level;
         }
     }
