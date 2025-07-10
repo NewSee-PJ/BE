@@ -3,6 +3,7 @@ package dgu.newsee.domain.user.controller;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.SocialLoginRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.LevelRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserInfoResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.LevelResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.ProfileUpdateRequest;
@@ -59,5 +60,15 @@ public class UserController {
         }
         String userId = authentication.getName();
         return ApiResponse.success(userService.updateLevel(userId, request));
+    }
+
+    @GetMapping("/profile")
+    @Operation(summary = "프로필 정보 및 가입일 조회 API", description = "로그인한 사용자의 이름, 프로필 이미지, 레벨, 가입일을 조회합니다.")
+    public ApiResponse<UserInfoResponse> getProfileInfo(Authentication authentication) {
+        if (authentication == null) {
+            throw new UserException(ResponseCode.USER_UNAUTHORIZED);
+        }
+        String userId = authentication.getName();
+        return ApiResponse.success(userService.getUserInfo(userId));
     }
 }

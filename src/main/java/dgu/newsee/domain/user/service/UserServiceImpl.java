@@ -13,6 +13,7 @@ import dgu.newsee.global.security.JwtTokenProvider;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.ProfileUpdateRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.LevelRequest;
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserInfoResponse;
 import dgu.newsee.global.security.OAuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -107,5 +108,13 @@ public class UserServiceImpl implements UserService {
             case "하" -> Level.LOW;
             default -> Level.MEDIUM;
         };
+    }
+
+    @Override
+    public UserInfoResponse getUserInfo(String userId) {
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
+
+        return UserConverter.toUserInfoResponse(user);
     }
 }

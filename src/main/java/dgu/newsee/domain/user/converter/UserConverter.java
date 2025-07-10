@@ -3,6 +3,7 @@ package dgu.newsee.domain.user.converter;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.LevelResponse;
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserInfoResponse;
 import dgu.newsee.domain.user.dto.UserProfile;
 import dgu.newsee.domain.user.entity.Level;
 import dgu.newsee.domain.user.entity.Role;
@@ -56,4 +57,13 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserInfoResponse toUserInfoResponse(User user) {
+        return UserInfoResponse.builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .profileImage(user.getProfileImage())
+                .level(user.getLevel())
+                .joinDate(user.getJoinDate().toString())
+                .build();
+    }
 }

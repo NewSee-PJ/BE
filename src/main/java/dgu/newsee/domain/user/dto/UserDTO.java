@@ -26,6 +26,7 @@ public class UserDTO {
         public static class LevelRequest {
             private String level;
         }
+
     }
 
     public static class UserResponse {
@@ -64,6 +65,19 @@ public class UserDTO {
             private Long userId;
             private String name;
             private Level level;
+        }
+
+
+        @Getter
+        @Builder
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class UserInfoResponse {
+            private Long userId;
+            private String name;
+            private String profileImage;
+            private Level level;
+            private String joinDate;
         }
     }
 }
