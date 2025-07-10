@@ -37,7 +37,8 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/api/user/kakao",
                                 "/api/url/news",
-                                "/api/user/level"
+                                "/api/user/level",
+                                "/api/test/crawled-news/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
