@@ -1,5 +1,6 @@
 package dgu.newsee.domain.words.entity;
 
+import dgu.newsee.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "words")
-public class Word {
+public class Word extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
