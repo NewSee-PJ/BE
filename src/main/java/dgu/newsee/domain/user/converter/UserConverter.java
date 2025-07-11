@@ -57,13 +57,14 @@ public class UserConverter {
                 .build();
     }
 
-    public static UserInfoResponse toUserInfoResponse(User user) {
+    public static UserInfoResponse toUserInfoResponse(User user, int savedWordCount) {
         return UserInfoResponse.builder()
                 .userId(user.getUserId())
                 .name(user.getName())
                 .profileImage(user.getProfileImage())
                 .level(user.getLevel())
                 .joinDate(user.getJoinDate().toString())
+                .savedWordCount(savedWordCount)
                 .build();
     }
 }

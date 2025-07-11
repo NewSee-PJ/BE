@@ -78,6 +78,7 @@ public class UserDTO {
             private String profileImage;
             private Level level;
             private String joinDate;
+            private int savedWordCount;
         }
     }
 }
