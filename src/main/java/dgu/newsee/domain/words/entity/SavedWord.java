@@ -1,5 +1,6 @@
 package dgu.newsee.domain.words.entity;
 
+import dgu.newsee.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Table(name = "saved_words")
-public class SavedWord {
+public class SavedWord extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
