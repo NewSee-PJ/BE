@@ -1,5 +1,6 @@
 package dgu.newsee.domain.user.controller;
 
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserTokenResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.SocialLoginRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.LevelRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
@@ -13,6 +14,7 @@ import dgu.newsee.global.payload.ApiResponse;
 import dgu.newsee.global.payload.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,13 @@ public class UserController {
     public ApiResponse<UserAuthResponse> kakaoLogin(@RequestBody SocialLoginRequest request) {
         return ApiResponse.success(
                 userService.kakaoLogin(request.getAccessToken()));
+    }
+
+    @PostMapping("/refresh")
+    @Operation(summary = "토큰 갱신 API", description = "Refresh Token을 이용하여 Access Token 갱신")
+    public ApiResponse<UserTokenResponse> refresh(@RequestHeader("Authorization") String authorizationHeader) {
+        String refreshToken = authorizationHeader.replace("Bearer ", "");
+        return ApiResponse.success(userService.refreshAccessToken(refreshToken));
     }
 
     @PatchMapping("/profile")

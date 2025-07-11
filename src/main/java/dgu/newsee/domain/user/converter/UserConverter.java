@@ -1,5 +1,6 @@
 package dgu.newsee.domain.user.converter;
 
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserTokenResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.LevelResponse;
@@ -36,6 +37,13 @@ public class UserConverter {
                 user.getLevel().toString(),
                 isNew
         );
+    }
+
+    public static UserTokenResponse toUserTokenResponse(String accessToken, String refreshToken) {
+        return UserTokenResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     public static ProfileUpdateResponse toProfileUpdateResponse(User user) {

@@ -1,6 +1,7 @@
 package dgu.newsee.domain.user.service;
 
 import dgu.newsee.domain.user.converter.UserConverter;
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserTokenResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.LevelResponse;
 import dgu.newsee.domain.user.dto.UserProfile;
@@ -15,7 +16,9 @@ import dgu.newsee.domain.user.dto.UserDTO.UserRequest.ProfileUpdateRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.LevelRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserInfoResponse;
 import dgu.newsee.domain.words.repository.SavedWordRepository;
+import dgu.newsee.global.security.JwtUtil;
 import dgu.newsee.global.security.OAuthUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final OAuthUtil oAuthUtil;
+    private final JwtUtil jwtUtil;
     private final SavedWordRepository savedWordRepository;
 
     @Override
@@ -56,6 +60,27 @@ public class UserServiceImpl implements UserService {
 
         // 4. 응답 변환
         return UserConverter.toUserAuthResponse(user, accessToken, refreshToken, isNew);
+    }
+
+    @Override
+    public UserTokenResponse refreshAccessToken(String refreshToken) {
+        Long extractedUserId = jwtUtil.extractUserId(refreshToken);
+        if (extractedUserId == null) {
+            throw new UserException(ResponseCode.INVALID_REFRESH_TOKEN);
+        }
+
+        User user = userRepository.findById(extractedUserId)
+                .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
+
+        if (!refreshToken.equals(user.getRefreshToken())) {
+            throw new UserException(ResponseCode.INVALID_REFRESH_TOKEN);
+        }
+
+        String newAccessToken = jwtTokenProvider.generateAccessToken(user);
+        String newRefreshToken = jwtTokenProvider.generateRefreshToken(user);
+        user.updateRefreshToken(refreshToken);
+
+        return UserConverter.toUserTokenResponse(newAccessToken, newRefreshToken);
     }
 
     @Override
