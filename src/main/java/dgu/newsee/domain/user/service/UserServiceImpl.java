@@ -14,6 +14,7 @@ import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.ProfileUpdateRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserRequest.LevelRequest;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserInfoResponse;
+import dgu.newsee.domain.words.repository.SavedWordRepository;
 import dgu.newsee.global.security.OAuthUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final OAuthUtil oAuthUtil;
+    private final SavedWordRepository savedWordRepository;
 
     @Override
     public UserAuthResponse kakaoLogin(String accessTokenFromKakao) {
@@ -115,6 +117,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(Long.valueOf(userId))
                 .orElseThrow(() -> new UserException(ResponseCode.USER_NOT_FOUND));
 
-        return UserConverter.toUserInfoResponse(user);
+        int savedWordCount = savedWordRepository.findByUserId(user.getUserId()).size();
+
+        return UserConverter.toUserInfoResponse(user, savedWordCount);
     }
 }
