@@ -1,5 +1,6 @@
 package dgu.newsee.domain.words.repository;
 
+import dgu.newsee.domain.crawlednews.entity.NewsOrigin;
 import dgu.newsee.domain.words.entity.Word;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,7 @@ public interface WordRepository extends JpaRepository<Word, Long> {
     List<Word> findByTermContainingOrDescriptionContaining(String termKeyword, String descKeyword);
 
     boolean existsByTerm(String term);
+
+    List<Word> findByNews(NewsOrigin news);
+
 }
