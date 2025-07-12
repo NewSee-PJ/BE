@@ -18,7 +18,6 @@ public class NewsDetailDTO {
     private String time;
     private String url;
     private String imageUrl;
-    private String userLevel;
     private boolean isBookmarked;
 
     @JsonProperty("isBookmarked")
