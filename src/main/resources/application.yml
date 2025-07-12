@@ -23,4 +23,8 @@ spring:
       pool:
         size: 3
     main:
-      allow-bean-definition-overriding: true
+      allow-bean-definition-overriding: true\
+
+external:
+  ai:
+    url: https://4a1efdb53fcb.ngrok-free.app/api/news/transfer

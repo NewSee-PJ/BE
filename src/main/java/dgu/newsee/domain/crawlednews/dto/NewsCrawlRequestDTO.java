@@ -1,4 +1,4 @@
-package dgu.newsee.domain.news.dto;
+package dgu.newsee.domain.crawlednews.dto;
 
 import lombok.Getter;
 

@@ -1,5 +1,4 @@
 package dgu.newsee.domain.crawlednews.entity;
-
 import dgu.newsee.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,13 +10,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class CrawledNews extends BaseEntity {
+public class NewsOrigin extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
+
+    @Column(length = 1024)
+    private String imageUrl;
+
 
     @Lob
     private String content;
@@ -29,4 +32,7 @@ public class CrawledNews extends BaseEntity {
     private LocalDateTime time;
 
     private String originalUrl;
+
+    @Enumerated(EnumType.STRING) // DB에는 USER_INPUT, AUTO_CRAWLED로 저장됨
+    private NewsStatus status;
 }
