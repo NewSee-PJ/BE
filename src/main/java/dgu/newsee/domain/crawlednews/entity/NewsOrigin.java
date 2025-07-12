@@ -1,4 +1,4 @@
-package dgu.newsee.domain.news.entity;
+package dgu.newsee.domain.crawlednews.entity;
 import dgu.newsee.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;

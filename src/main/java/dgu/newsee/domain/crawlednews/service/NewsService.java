@@ -1,11 +1,11 @@
-package dgu.newsee.domain.news.service;
+package dgu.newsee.domain.crawlednews.service;
 
-import dgu.newsee.domain.news.dto.NewsCrawlRequestDTO;
-import dgu.newsee.domain.news.entity.NewsOrigin;
-import dgu.newsee.domain.news.entity.NewsStatus;
-import dgu.newsee.domain.news.repository.NewsRepository;
-import dgu.newsee.domain.news.util.NewsCrawlResult;
-import dgu.newsee.domain.news.util.NewsCrawler;
+import dgu.newsee.domain.crawlednews.dto.NewsCrawlRequestDTO;
+import dgu.newsee.domain.crawlednews.entity.NewsOrigin;
+import dgu.newsee.domain.crawlednews.entity.NewsStatus;
+import dgu.newsee.domain.crawlednews.repository.NewsRepository;
+import dgu.newsee.domain.crawlednews.util.NewsCrawler;
+import dgu.newsee.domain.crawlednews.util.ParsedNews;
 import dgu.newsee.domain.user.entity.User;
 import dgu.newsee.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class NewsService {
 
         try {
             // 뉴스 크롤링
-            NewsCrawlResult result = crawler.crawl(url);
+            ParsedNews result = crawler.crawl(url);
 
             // News 객체 저장
             NewsOrigin newsOrigin = NewsOrigin.builder()

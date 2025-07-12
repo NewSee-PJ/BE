@@ -1,6 +1,6 @@
-package dgu.newsee.domain.news.dto;
+package dgu.newsee.domain.crawlednews.dto;
 
-import dgu.newsee.domain.news.entity.NewsOrigin;
+import dgu.newsee.domain.crawlednews.entity.NewsOrigin;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

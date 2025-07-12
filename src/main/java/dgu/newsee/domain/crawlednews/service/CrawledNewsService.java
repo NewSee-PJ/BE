@@ -1,10 +1,10 @@
 package dgu.newsee.domain.crawlednews.service;
 
-import dgu.newsee.domain.news.entity.NewsOrigin;
-import dgu.newsee.domain.news.entity.NewsStatus;
-import dgu.newsee.domain.news.repository.NewsRepository;
+import dgu.newsee.domain.crawlednews.entity.NewsOrigin;
+import dgu.newsee.domain.crawlednews.entity.NewsStatus;
+import dgu.newsee.domain.crawlednews.repository.NewsRepository;
 import dgu.newsee.domain.crawlednews.util.CrawledNewsCrawler;
-import dgu.newsee.domain.crawlednews.util.CrawledNewsResult;
+import dgu.newsee.domain.crawlednews.util.ParsedNews;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +26,7 @@ public class CrawledNewsService {
         }
 
         try {
-            CrawledNewsResult result = crawler.crawl(normalizedUrl, category);
+            ParsedNews result = crawler.crawl(normalizedUrl, category);
             NewsOrigin news = NewsOrigin.builder()
                     .title(result.getTitle())
                     .content(result.getContent())

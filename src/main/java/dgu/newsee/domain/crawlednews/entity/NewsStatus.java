@@ -1,4 +1,4 @@
-package dgu.newsee.domain.news.entity;
+package dgu.newsee.domain.crawlednews.entity;
 
 public enum NewsStatus {
     USER_INPUT,    // 0
