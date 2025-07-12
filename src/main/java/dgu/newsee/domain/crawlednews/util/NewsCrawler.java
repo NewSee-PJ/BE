@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class CrawledNewsCrawler {
+public class NewsCrawler {
 
-    public ParsedNews crawl(String url, String category) throws IOException {
+    public ParsedNews crawl(String url) throws IOException {
         Document doc = Jsoup.connect(url).get();
-        return NewsParserUtil.parse(doc, category, url);  // 카테고리는 호출하는 쪽에서 지정
+        return NewsParserUtil.parse(doc, null, url);
     }
 }

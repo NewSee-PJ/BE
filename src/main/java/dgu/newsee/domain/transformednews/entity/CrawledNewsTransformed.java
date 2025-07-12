@@ -1,6 +1,6 @@
 package dgu.newsee.domain.transformednews.entity;
 
-import dgu.newsee.domain.crawlednews.entity.CrawledNews;
+import dgu.newsee.domain.crawlednews.entity.NewsOrigin;
 import dgu.newsee.domain.words.entity.Word;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,7 +28,7 @@ public class CrawledNewsTransformed {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "crawled_news_id")
-    private CrawledNews crawledNews;
+    private NewsOrigin crawledNews;
 
     @OneToMany(mappedBy = "crawledNewsTransformed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Word> difficultWords;

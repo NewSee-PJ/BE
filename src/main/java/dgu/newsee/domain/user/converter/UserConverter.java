@@ -1,5 +1,6 @@
 package dgu.newsee.domain.user.converter;
 
+import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserTokenResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.ProfileUpdateResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.UserAuthResponse;
 import dgu.newsee.domain.user.dto.UserDTO.UserResponse.LevelResponse;
@@ -38,6 +39,13 @@ public class UserConverter {
         );
     }
 
+    public static UserTokenResponse toUserTokenResponse(String accessToken, String refreshToken) {
+        return UserTokenResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
     public static ProfileUpdateResponse toProfileUpdateResponse(User user) {
         return ProfileUpdateResponse.builder()
                 .userId(user.getUserId())
@@ -57,13 +65,14 @@ public class UserConverter {
                 .build();
     }
 
-    public static UserInfoResponse toUserInfoResponse(User user) {
+    public static UserInfoResponse toUserInfoResponse(User user, int savedWordCount) {
         return UserInfoResponse.builder()
                 .userId(user.getUserId())
                 .name(user.getName())
                 .profileImage(user.getProfileImage())
                 .level(user.getLevel())
                 .joinDate(user.getJoinDate().toString())
+                .savedWordCount(savedWordCount)
                 .build();
     }
 }
