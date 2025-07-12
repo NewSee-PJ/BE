@@ -58,7 +58,6 @@ public class NewsConverter {
                 .time(origin.getTime().toString())
                 .url(origin.getOriginalUrl())
                 .imageUrl(origin.getImageUrl())
-                .userLevel(userLevel)
                 .isBookmarked(isBookmarked)
                 .transformedContent(transformed.getTransformedContent())
                 .summary(transformed.getSummarized())
