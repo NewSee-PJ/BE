@@ -5,6 +5,7 @@ import dgu.newsee.domain.crawlednews.entity.NewsStatus;
 import dgu.newsee.domain.crawlednews.repository.NewsRepository;
 import dgu.newsee.domain.crawlednews.util.CrawledNewsCrawler;
 import dgu.newsee.domain.crawlednews.util.ParsedNews;
+import dgu.newsee.domain.transformednews.service.CrawledTransformedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,8 @@ public class CrawledNewsService {
 
     private final CrawledNewsCrawler crawler;
     private final NewsRepository newsRepository;
+    private final NewsRepository repository;
+    private final CrawledTransformedService crawledTransformedService;
 
     @Transactional
     public void crawlAndSave(String url, String category) {
@@ -38,6 +41,8 @@ public class CrawledNewsService {
                     .build();
             newsRepository.save(news);
             System.out.println("크롤링 및 저장 완료: " + normalizedUrl);
+            crawledTransformedService.requestTransformAndSave(news.getId(), null); // 기본 level은 "중"
+
         } catch (Exception e) {
             System.err.println("크롤링 실패: " + normalizedUrl + " → " + e.getMessage());
         }
