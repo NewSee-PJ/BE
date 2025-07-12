@@ -18,8 +18,10 @@ public class NewsTransformed {
     @Enumerated(EnumType.STRING)
     private dgu.newsee.domain.crawlednews.entity.NewsStatus status; // 사용자/시스템 구분
 
+    @Column(name = "level", length = 10)
     @Enumerated(EnumType.STRING)
     private TransformLevel level;
+
 
 
     @Lob
@@ -27,7 +29,7 @@ public class NewsTransformed {
 
     private String summarized;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "news_id")
     private NewsOrigin news; //
 }

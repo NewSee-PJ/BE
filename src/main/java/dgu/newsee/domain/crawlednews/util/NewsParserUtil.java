@@ -1,6 +1,7 @@
 package dgu.newsee.domain.crawlednews.util;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,13 +30,50 @@ public class NewsParserUtil {
             time = LocalDateTime.now();
         }
 
+        // 대표 이미지
+        String imageUrl = doc.select("meta[property=og:image]").attr("content");
+
+        if (imageUrl == null || imageUrl.isBlank()) {
+            try {
+                imageUrl = doc.select("img[src]").stream()
+                        .map(e -> e.attr("src"))
+                        .filter(src -> src.contains("imgnews.pstatic.net"))
+                        .findFirst()
+                        .orElse(null);
+            } catch (Exception e) {
+                // 무시
+            }
+        }
+        System.out.println("대표 이미지 URL 최종: " + imageUrl);
+
+
+
         // 카테고리 유추
-        String category = categoryFromCaller;
-        if (category == null || category.isBlank()) {
-            category = extractCategoryFromUrl(url);
+        String category = null;
+
+        try {
+            // 1. 네이버 뉴스일 경우 카테고리 직접 파싱 시도
+            Element selected = doc.selectFirst("a.Nitem_link_menu[aria-selected=true]");
+            if (selected != null) {
+                category = selected.text();  // 예: 생활/문화
+            }
+
+            // 2. 그래도 null이면 백업으로 URL에서 유추 시도
+            if (category == null || category.isBlank()) {
+                category = extractCategoryFromUrl(url); // sid 기반
+            }
+
+            // 3. 여전히 못찾으면 fallback
+            if (category == null || category.isBlank()) {
+                category = "기타";
+            }
+
+        } catch (Exception e) {
+            category = "기타";
         }
 
-        return new ParsedNews(title, content, category, source, time, url);
+
+        return new ParsedNews(title, content, category, source, time, url, imageUrl);
     }
 
     private static String extractCategoryFromUrl(String url) {

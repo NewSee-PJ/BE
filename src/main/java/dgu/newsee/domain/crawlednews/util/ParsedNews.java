@@ -14,4 +14,5 @@ public class ParsedNews {
     private String source;
     private LocalDateTime time;
     private String url;
+    private String imageUrl;
 }

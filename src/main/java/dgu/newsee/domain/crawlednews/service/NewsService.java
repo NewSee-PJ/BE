@@ -39,6 +39,7 @@ public class NewsService {
             NewsOrigin newsOrigin = NewsOrigin.builder()
                     .title(result.getTitle())
                     .content(result.getContent())
+                    .imageUrl(result.getImageUrl())
                     .category(result.getCategory())
                     .source(result.getSource())
                     .time(result.getTime())

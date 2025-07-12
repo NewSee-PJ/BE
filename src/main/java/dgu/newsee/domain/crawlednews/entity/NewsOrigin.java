@@ -18,6 +18,10 @@ public class NewsOrigin extends BaseEntity {
 
     private String title;
 
+    @Column(length = 1024)
+    private String imageUrl;
+
+
     @Lob
     private String content;
 

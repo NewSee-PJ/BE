@@ -27,4 +27,4 @@ spring:
 
 external:
   ai:
-    url: https://a00e269d857e.ngrok-free.app
+    url: https://4a1efdb53fcb.ngrok-free.app/api/news/transfer

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class NewsCrawlResponseDTO {
     private String title;
     private String content;
+    private String imageUrl;
     private String category;
     private String source;
     private LocalDateTime time;
@@ -17,6 +18,7 @@ public class NewsCrawlResponseDTO {
     public NewsCrawlResponseDTO(NewsOrigin newsOrigin) {
         this.title = newsOrigin.getTitle();
         this.content = newsOrigin.getContent();
+        this.imageUrl = newsOrigin.getImageUrl();
         this.category = newsOrigin.getCategory();
         this.source = newsOrigin.getSource();
         this.time = newsOrigin.getTime();
