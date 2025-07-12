@@ -77,7 +77,7 @@ public class TransformedNewsService {
                     new ParameterizedTypeReference<>() {}
             );
         } catch (Exception e) {
-            //System.out.println("AI 서버 호출 중 예외 발생: " + e.getMessage());
+            System.out.println("AI 서버 호출 중 예외 발생: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("AI 서버 호출 실패");
         }
@@ -86,23 +86,23 @@ public class TransformedNewsService {
         try {
             System.out.println("==== [AI 서버 응답 수신] ====");
             if (response == null) {
-                //System.out.println("응답 객체가 null입니다.");
+                System.out.println("응답 객체가 null입니다.");
                 throw new RuntimeException("응답이 null");
             }
 
-            //System.out.println("응답 상태 코드: " + response.getStatusCode());
+            System.out.println("응답 상태 코드: " + response.getStatusCode());
 
             ApiResponse<TransformedNewsResponseDTO> apiResponse = response.getBody();
 
             if (apiResponse == null) {
-                //System.out.println("응답 바디가 null입니다.");
+                System.out.println("응답 바디가 null입니다.");
                 throw new RuntimeException("response.getBody()가 null");
             }
 
             //System.out.println("응답 바디: " + objectMapper.writeValueAsString(apiResponse));
 
             if (apiResponse.getResult() == null) {
-                //System.out.println("result 필드가 null입니다.");
+                System.out.println("result 필드가 null입니다.");
                 throw new RuntimeException("AI 응답의 result가 null");
             }
 
@@ -117,7 +117,7 @@ public class TransformedNewsService {
                     .status(status)
                     .build();
             transformedRepository.save(transformed);
-            //System.out.println("변환된 뉴스 저장 완료");
+            System.out.println("변환된 뉴스 저장 완료");
 
             for (var wordDTO : result.getDifficultWords()) {
                 if (!wordRepository.existsByTerm(wordDTO.getTerm())) {
@@ -125,13 +125,14 @@ public class TransformedNewsService {
                             .term(wordDTO.getTerm())
                             .description(wordDTO.getDescription())
                             .category(news.getCategory())
+                            .news(news)
                             .build();
                     wordRepository.save(word);
                 }
             }
 
         } catch (Exception e) {
-            //System.out.println("응답 처리 중 예외 발생: " + e.getMessage());
+            System.out.println("응답 처리 중 예외 발생: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("응답 처리 실패");
         }
