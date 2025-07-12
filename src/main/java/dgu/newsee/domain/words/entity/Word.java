@@ -1,5 +1,6 @@
 package dgu.newsee.domain.words.entity;
 
+import dgu.newsee.domain.crawlednews.entity.NewsOrigin;
 import dgu.newsee.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +17,9 @@ public class Word extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long wordId;
 
-    private Integer newsId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "news_id")
+    private NewsOrigin news;
 
     private String term;
 
