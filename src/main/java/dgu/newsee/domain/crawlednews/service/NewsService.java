@@ -47,7 +47,10 @@ public class NewsService {
                     .build();
             newsRepository.save(newsOrigin);
 
-            transformedService.requestTransformAndSave(newsOrigin.getId(), null);
+            transformedService.requestTransformAndSaveAllLevels(
+                    newsOrigin.getId(),
+                    NewsStatus.USER_INPUT
+            );
 
             // 사용자 조회
             User user = userRepository.findById(userId)
