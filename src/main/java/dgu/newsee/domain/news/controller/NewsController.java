@@ -2,7 +2,7 @@ package dgu.newsee.domain.news.controller;
 
 import dgu.newsee.domain.news.dto.NewsCrawlRequestDTO;
 import dgu.newsee.domain.news.dto.NewsCrawlResponseDTO;
-import dgu.newsee.domain.news.entity.News;
+import dgu.newsee.domain.news.entity.NewsOrigin;
 import dgu.newsee.domain.news.service.NewsService;
 import dgu.newsee.global.payload.ApiResponse;
 import dgu.newsee.global.payload.ResponseCode;
@@ -30,10 +30,10 @@ public class NewsController {
 
         try {
             Long userId = userDetails.getUserId();
-            News news = newsService.crawlAndSave(request, userId);
+            NewsOrigin newsOrigin = newsService.crawlAndSave(request, userId);
 
             return ApiResponse.success(
-                    new NewsCrawlResponseDTO(news),
+                    new NewsCrawlResponseDTO(newsOrigin),
                     ResponseCode.COMMON_SUCCESS
             );
         } catch (IllegalArgumentException e) {

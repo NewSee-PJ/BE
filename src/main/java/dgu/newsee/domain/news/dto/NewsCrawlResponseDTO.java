@@ -1,6 +1,6 @@
 package dgu.newsee.domain.news.dto;
 
-import dgu.newsee.domain.news.entity.News;
+import dgu.newsee.domain.news.entity.NewsOrigin;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -14,13 +14,13 @@ public class NewsCrawlResponseDTO {
     private LocalDateTime time;
     private Long newsId;
 
-    public NewsCrawlResponseDTO(News news) {
-        this.title = news.getTitle();
-        this.content = news.getContent();
-        this.category = news.getCategory();
-        this.source = news.getSource();
-        this.time = news.getTime();
-        this.newsId = news.getId();
+    public NewsCrawlResponseDTO(NewsOrigin newsOrigin) {
+        this.title = newsOrigin.getTitle();
+        this.content = newsOrigin.getContent();
+        this.category = newsOrigin.getCategory();
+        this.source = newsOrigin.getSource();
+        this.time = newsOrigin.getTime();
+        this.newsId = newsOrigin.getId();
     }
 }
 
