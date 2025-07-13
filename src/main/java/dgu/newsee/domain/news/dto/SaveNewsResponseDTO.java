@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class SaveNewsResponseDTO {
     private Long userId;
-    private Long newsId;
+    private Long savedNewsId;
 }
