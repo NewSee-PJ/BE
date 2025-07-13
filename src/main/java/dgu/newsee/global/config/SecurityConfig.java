@@ -36,7 +36,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/api/user/kakao",
-                                "/api/url/news",
+                                "/api/news/url",
                                 "/api/user/level",
                                 "/api/test/crawled-news/**",
                                 "/api/news/**"

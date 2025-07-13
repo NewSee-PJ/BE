@@ -2,9 +2,12 @@ package dgu.newsee.domain.crawlednews.util;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewsParserUtil {
 
@@ -13,7 +16,34 @@ public class NewsParserUtil {
         String title = doc.select("meta[property=og:title]").attr("content");
 
         // 본문
-        String content = doc.select("#dic_area").text();
+        // 본문 파싱 (p 태그 우선, 없으면 br 기준으로 직접 파싱)
+        String content = "";
+
+        Elements paragraphs = doc.select("#dic_area > p");
+        if (!paragraphs.isEmpty()) {
+            List<String> lines = new ArrayList<>();
+            for (Element p : paragraphs) {
+                String text = p.text().trim();
+                if (!text.isEmpty()) lines.add(text);
+            }
+            content = String.join("\n", lines);
+        } else {
+            // fallback: br 태그 기준으로 수동 파싱
+            Element dicArea = doc.selectFirst("#dic_area");
+            if (dicArea != null) {
+                StringBuilder builder = new StringBuilder();
+                for (var node : dicArea.childNodes()) {
+                    if (node.nodeName().equals("br")) {
+                        builder.append("\n");
+                    } else {
+                        builder.append(node.toString().replaceAll("<.*?>", "").trim());
+                    }
+                }
+                content = builder.toString().replaceAll("\n{2,}", "\n");  // 줄바꿈 2번 이상은 하나로 줄이기
+            }
+        }
+
+
 
         // 출처
         String source = doc.select("meta[property=og:article:author]").attr("content");
@@ -51,24 +81,26 @@ public class NewsParserUtil {
         // 카테고리 유추
         String category = null;
 
-        try {
-            // 1. 네이버 뉴스일 경우 카테고리 직접 파싱 시도
-            Element selected = doc.selectFirst("a.Nitem_link_menu[aria-selected=true]");
+        // 1. 시스템 크롤링이면 외부에서 categoryFromCaller가 전달됨
+        if (categoryFromCaller != null && !categoryFromCaller.isBlank()) {
+            category = categoryFromCaller;
+        }
+
+        // 2. 사용자 입력 등인 경우 HTML 태그 기반 시도
+        if (category == null || category.isBlank()) {
+            Element selected = doc.selectFirst("a.Nitem_link_menu[aria-selected=true], span.Nitem_link_menu");
             if (selected != null) {
-                category = selected.text();  // 예: 생활/문화
+                category = selected.text();
             }
+        }
 
-            // 2. 그래도 null이면 백업으로 URL에서 유추 시도
-            if (category == null || category.isBlank()) {
-                category = extractCategoryFromUrl(url); // sid 기반
-            }
+        // 3. 그래도 없으면 URL 내 sid= 파싱 시도
+        if ((category == null || category.isBlank()) && url.contains("sid=")) {
+            category = extractCategoryFromUrl(url);
+        }
 
-            // 3. 여전히 못찾으면 fallback
-            if (category == null || category.isBlank()) {
-                category = "기타";
-            }
-
-        } catch (Exception e) {
+        // 4. 여전히 못 찾으면 fallback
+        if (category == null || category.isBlank()) {
             category = "기타";
         }
 

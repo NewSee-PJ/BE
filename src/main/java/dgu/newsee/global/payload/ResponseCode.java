@@ -45,7 +45,8 @@ public enum ResponseCode implements BaseErrorCode {
     // ✅ 기타
     INVALID_REQUEST(ResponseCodeType.ERROR, "REQ400", "잘못된 요청입니다.", HttpStatus.BAD_REQUEST),
     MISSING_PARAMETER(ResponseCodeType.ERROR, "REQ401", "필수 파라미터가 누락되었습니다.", HttpStatus.BAD_REQUEST),
-    PARSE_ERROR(ResponseCodeType.ERROR, "REQ402", "데이터 파싱 오류입니다.", HttpStatus.BAD_REQUEST);
+    PARSE_ERROR(ResponseCodeType.ERROR, "REQ402", "데이터 파싱 오류입니다.", HttpStatus.BAD_REQUEST),
+    AI_SERVER_DOWN(ResponseCodeType.ERROR, "AI_001", "AI 서버가 응답하지 않습니다.", HttpStatus.SERVICE_UNAVAILABLE);
 
     private final ResponseCodeType type;
     private final String code;
