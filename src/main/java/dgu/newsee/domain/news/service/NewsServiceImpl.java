@@ -149,7 +149,7 @@ public class NewsServiceImpl implements NewsService {
         savedNewsRepository.save(savedNews);
 
         return ApiResponse.success(
-                new SaveNewsResponseDTO(userId, newsId),
+                new SaveNewsResponseDTO(userId, savedNews.getId()),
                 ResponseCode.NEWS_SAVE_SUCCESS
         );
     }
