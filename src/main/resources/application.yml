@@ -23,8 +23,8 @@ spring:
       pool:
         size: 3
     main:
-      allow-bean-definition-overriding: true\
+      allow-bean-definition-overriding: true
 
 external:
   ai:
-    url: https://0b96a22855d0.ngrok-free.app/api/news/transfer
+    url: ${EXTERNAL_AI_URL}

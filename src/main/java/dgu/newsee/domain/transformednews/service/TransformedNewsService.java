@@ -36,6 +36,8 @@ public class TransformedNewsService {
     @Value("${external.ai.url}")
     private String aiServerUrl;
 
+    private final String transformPath = "/api/news/transfer";
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
@@ -56,10 +58,13 @@ public class TransformedNewsService {
                 level
         );
 
+        // ai 서버 url + transformPath
+        String requestUrl = aiServerUrl + transformPath;
+
         // 요청 로그 출력
         try {
             System.out.println("\n==== [AI 서버 요청 전송] ====");
-            System.out.println("요청 URL: " + aiServerUrl);
+            System.out.println("요청 URL: " + requestUrl);
             System.out.println("요청 JSON: " + objectMapper.writeValueAsString(request));
         } catch (Exception e) {
             System.out.println("요청 JSON 직렬화 실패: " + e.getMessage());
@@ -73,7 +78,7 @@ public class TransformedNewsService {
 
         try {
             response = restTemplate.exchange(
-                    aiServerUrl,
+                    requestUrl,
                     HttpMethod.POST,
                     entity,
                     new ParameterizedTypeReference<>() {}
