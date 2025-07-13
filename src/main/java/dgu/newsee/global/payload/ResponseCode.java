@@ -27,6 +27,7 @@ public enum ResponseCode implements BaseErrorCode {
     NEWS_SAVE_SUCCESS(ResponseCodeType.SUCCESS, "NEWS201", "뉴스 저장에 성공했습니다.", HttpStatus.OK),
     NEWS_DELETE_SUCCESS(ResponseCodeType.SUCCESS, "NEWS202", "뉴스 삭제에 성공했습니다.", HttpStatus.OK),
     NEWS_SEARCH_SUCCESS(ResponseCodeType.SUCCESS, "NEWS203", "뉴스 검색 성공", HttpStatus.OK),
+    NEWS_CRAWL_FAIL(ResponseCodeType.ERROR, "NEWS500", "뉴스 크롤링에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
     // ✅ 단어장 관련
     WORD_SAVE_SUCCESS(ResponseCodeType.SUCCESS, "WORD201", "단어 저장에 성공했습니다.", HttpStatus.OK),
@@ -46,7 +47,12 @@ public enum ResponseCode implements BaseErrorCode {
     INVALID_REQUEST(ResponseCodeType.ERROR, "REQ400", "잘못된 요청입니다.", HttpStatus.BAD_REQUEST),
     MISSING_PARAMETER(ResponseCodeType.ERROR, "REQ401", "필수 파라미터가 누락되었습니다.", HttpStatus.BAD_REQUEST),
     PARSE_ERROR(ResponseCodeType.ERROR, "REQ402", "데이터 파싱 오류입니다.", HttpStatus.BAD_REQUEST),
+    
+    // ✅ AI관련
     AI_SERVER_DOWN(ResponseCodeType.ERROR, "AI_001", "AI 서버가 응답하지 않습니다.", HttpStatus.SERVICE_UNAVAILABLE);
+
+
+
 
     private final ResponseCodeType type;
     private final String code;

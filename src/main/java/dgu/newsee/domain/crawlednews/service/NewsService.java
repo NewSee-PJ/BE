@@ -9,6 +9,9 @@ import dgu.newsee.domain.crawlednews.util.ParsedNews;
 import dgu.newsee.domain.transformednews.service.TransformedNewsService;
 import dgu.newsee.domain.user.entity.User;
 import dgu.newsee.domain.user.repository.UserRepository;
+import dgu.newsee.global.exception.NewsException;
+import dgu.newsee.global.exception.UserException;
+import dgu.newsee.global.payload.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +33,7 @@ public class NewsService {
 
         // 사용자 조회
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserException(ResponseCode.USER_UNAUTHORIZED));
 
 
         // 1. 이미 저장된 뉴스면 바로 반환
@@ -63,7 +66,7 @@ public class NewsService {
             return newsOrigin;
 
         } catch (Exception e) {
-            throw new RuntimeException("크롤링 실패: " + e.getMessage());
+            throw new NewsException(ResponseCode.NEWS_CRAWL_FAIL);
         }
     }
 }
