@@ -16,32 +16,38 @@ public class NewsParserUtil {
         String title = doc.select("meta[property=og:title]").attr("content");
 
         // 본문
-        // 본문 파싱 (p 태그 우선, 없으면 br 기준으로 직접 파싱)
         String content = "";
 
-        Elements paragraphs = doc.select("#dic_area > p");
-        if (!paragraphs.isEmpty()) {
-            List<String> lines = new ArrayList<>();
-            for (Element p : paragraphs) {
-                String text = p.text().trim();
-                if (!text.isEmpty()) lines.add(text);
-            }
-            content = String.join("\n", lines);
-        } else {
-            // fallback: br 태그 기준으로 수동 파싱
-            Element dicArea = doc.selectFirst("#dic_area");
-            if (dicArea != null) {
-                StringBuilder builder = new StringBuilder();
-                for (var node : dicArea.childNodes()) {
-                    if (node.nodeName().equals("br")) {
-                        builder.append("\n");
-                    } else {
-                        builder.append(node.toString().replaceAll("<.*?>", "").trim());
+        Element dicArea = doc.selectFirst("#dic_area");
+        if (dicArea != null) {
+            // HTML 전체를 가져와서 <br> 두 개 이상을 기준으로 문단 나누기
+            String rawHtml = dicArea.html();
+
+            // <br> 태그를 통일된 형태로 바꿔 처리하기 쉽게 함
+            rawHtml = rawHtml.replaceAll("(?i)<br[^>]*>", "<br>");
+
+            // 연속된 <br><br>을 기준으로 문단 나누기
+            String[] paragraphsRaw = rawHtml.split("(<br>\\s*){2,}");
+
+            StringBuilder contentBuilder = new StringBuilder();
+            for (String paragraphHtml : paragraphsRaw) {
+                // <br> 단일은 줄바꿈, 나머지는 태그 제거
+                String paragraphText = paragraphHtml
+                        .replaceAll("(<br>\\s*)+", "\n") // 단일 <br>은 줄바꿈
+                        .replaceAll("<[^>]+>", "") // 나머지 HTML 태그 제거
+                        .trim();
+
+                if (!paragraphText.isEmpty()) {
+                    if (contentBuilder.length() > 0) {
+                        contentBuilder.append("\n\n"); // 단락 구분
                     }
+                    contentBuilder.append(paragraphText);
                 }
-                content = builder.toString().replaceAll("\n{2,}", "\n");  // 줄바꿈 2번 이상은 하나로 줄이기
             }
+
+            content = contentBuilder.toString();
         }
+
 
 
 
