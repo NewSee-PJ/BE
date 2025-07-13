@@ -3,9 +3,14 @@ package dgu.newsee.domain.news.converter;
 import dgu.newsee.domain.crawlednews.entity.NewsOrigin;
 import dgu.newsee.domain.news.dto.NewsDetailDTO;
 import dgu.newsee.domain.news.dto.NewsDTO;
+import dgu.newsee.domain.news.dto.SaveNewsResponseDTO;
 import dgu.newsee.domain.news.dto.SavedNewsDTO;
 import dgu.newsee.domain.news.entity.SavedNews;
 import dgu.newsee.domain.transformednews.entity.NewsTransformed;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -62,6 +67,13 @@ public class NewsConverter {
                 .transformedContent(transformed.getTransformedContent())
                 .summary(transformed.getSummarized())
                 .keywords(keywords)
+                .build();
+    }
+
+    public static SaveNewsResponseDTO toSaveNewsResponseDto(Long userId, SavedNews savedNews) {
+        return SaveNewsResponseDTO.builder()
+                .userId(userId)
+                .savedNewsId(savedNews.getId())
                 .build();
     }
 }

@@ -56,7 +56,7 @@ public class NewsServiceImpl implements NewsService {
                 })
                 .collect(Collectors.toList());
 
-        return ApiResponse.success(dtos, ResponseCode.COMMON_SUCCESS);
+        return ApiResponse.success(dtos);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class NewsServiceImpl implements NewsService {
                 keywordDtos
         );
 
-        return ApiResponse.success(dto, ResponseCode.COMMON_SUCCESS);
+        return ApiResponse.success(dto);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class NewsServiceImpl implements NewsService {
         savedNewsRepository.save(savedNews);
 
         return ApiResponse.success(
-                new SaveNewsResponseDTO(userId, savedNews.getId()),
+                NewsConverter.toSaveNewsResponseDto(userId, savedNews),
                 ResponseCode.NEWS_SAVE_SUCCESS
         );
     }
@@ -171,7 +171,7 @@ public class NewsServiceImpl implements NewsService {
                 })
                 .collect(Collectors.toList());
 
-        return ApiResponse.success(dtos, ResponseCode.COMMON_SUCCESS);
+        return ApiResponse.success(dtos);
     }
 
 
@@ -186,7 +186,7 @@ public class NewsServiceImpl implements NewsService {
 
         savedNewsRepository.delete(savedNews);
 
-        return ApiResponse.success(null, ResponseCode.COMMON_SUCCESS);
+        return ApiResponse.success(null);
     }
 
 
