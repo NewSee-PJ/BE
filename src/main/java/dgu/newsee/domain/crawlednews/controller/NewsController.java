@@ -24,13 +24,12 @@ public class NewsController {
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         // 로그인 여부 확인
-        if (userDetails == null) {
-            return ApiResponse.failure(ResponseCode.USER_UNAUTHORIZED.getReason());
-        }
+        //if (userDetails == null) {
+            //return ApiResponse.failure(ResponseCode.USER_UNAUTHORIZED.getReason());
+        //}
 
         try {
-            Long userId = userDetails.getUserId();
-            NewsOrigin newsOrigin = newsService.crawlAndSave(request, userId);
+            NewsOrigin newsOrigin = newsService.crawlAndSave(request);
 
             return ApiResponse.success(
                     new NewsCrawlResponseDTO(newsOrigin),

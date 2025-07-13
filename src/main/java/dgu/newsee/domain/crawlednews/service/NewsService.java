@@ -28,12 +28,12 @@ public class NewsService {
     private final TransformedNewsService transformedService;
 
     @Transactional
-    public NewsOrigin crawlAndSave(NewsCrawlRequestDTO request, Long userId) {
+    public NewsOrigin crawlAndSave(NewsCrawlRequestDTO request) {
         String url = request.getUrl();
 
         // 사용자 조회
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(ResponseCode.USER_UNAUTHORIZED));
+        //User user = userRepository.findById(userId)
+                //.orElseThrow(() -> new UserException(ResponseCode.USER_UNAUTHORIZED));
 
 
         // 1. 이미 저장된 뉴스면 바로 반환
