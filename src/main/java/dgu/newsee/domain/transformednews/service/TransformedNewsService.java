@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dgu.newsee.domain.crawlednews.entity.NewsOrigin;
 import dgu.newsee.domain.crawlednews.entity.NewsStatus;
 import dgu.newsee.domain.crawlednews.repository.NewsRepository;
-import dgu.newsee.domain.transformednews.dto.ApiResponse;
+import dgu.newsee.global.exception.AiServerException;
+import dgu.newsee.global.payload.ApiResponse;
 import dgu.newsee.domain.transformednews.dto.TransformRequestDTO;
 import dgu.newsee.domain.transformednews.dto.TransformedNewsResponseDTO;
 import dgu.newsee.domain.transformednews.entity.NewsTransformed;
@@ -12,6 +13,7 @@ import dgu.newsee.domain.transformednews.entity.TransformLevel;
 import dgu.newsee.domain.transformednews.repository.NewsTransformedRepository;
 import dgu.newsee.domain.words.entity.Word;
 import dgu.newsee.domain.words.repository.WordRepository;
+import dgu.newsee.global.payload.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -79,7 +81,7 @@ public class TransformedNewsService {
         } catch (Exception e) {
             System.out.println("AI 서버 호출 중 예외 발생: " + e.getMessage());
             e.printStackTrace();
-            throw new RuntimeException("AI 서버 호출 실패");
+            throw new AiServerException(ResponseCode.AI_SERVER_DOWN);
         }
 
         // 응답 로그 출력

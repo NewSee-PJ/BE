@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class NewsService {
@@ -26,9 +28,15 @@ public class NewsService {
     public NewsOrigin crawlAndSave(NewsCrawlRequestDTO request, Long userId) {
         String url = request.getUrl();
 
-        // 중복 저장 방지
-        if (newsRepository.existsByOriginalUrl(url)) {
-            throw new IllegalArgumentException("이미 저장된 뉴스입니다.");
+        // 사용자 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+
+        // 1. 이미 저장된 뉴스면 바로 반환
+        Optional<NewsOrigin> optionalNews = newsRepository.findByOriginalUrl(url);
+        if (optionalNews.isPresent()) {
+            return optionalNews.get(); // 안전하게 꺼내기
         }
 
         try {
@@ -52,12 +60,7 @@ public class NewsService {
                     newsOrigin.getId(),
                     NewsStatus.USER_INPUT
             );
-
-            // 사용자 조회
-            User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-
-                        return newsOrigin;
+            return newsOrigin;
 
         } catch (Exception e) {
             throw new RuntimeException("크롤링 실패: " + e.getMessage());

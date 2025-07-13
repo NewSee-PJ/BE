@@ -16,11 +16,11 @@ public class NewsParserUtil {
         String title = doc.select("meta[property=og:title]").attr("content");
 
         // 본문
-        String content;
+        // 본문 파싱 (p 태그 우선, 없으면 br 기준으로 직접 파싱)
+        String content = "";
 
         Elements paragraphs = doc.select("#dic_area > p");
         if (!paragraphs.isEmpty()) {
-            // <p> 태그가 있는 경우 문단 단위 추출
             List<String> lines = new ArrayList<>();
             for (Element p : paragraphs) {
                 String text = p.text().trim();
@@ -28,12 +28,21 @@ public class NewsParserUtil {
             }
             content = String.join("\n", lines);
         } else {
-            // <p> 태그가 없는 경우 전체 텍스트 추출
+            // fallback: br 태그 기준으로 수동 파싱
             Element dicArea = doc.selectFirst("#dic_area");
-            content = (dicArea != null) ? dicArea.text().trim() : "";
+            if (dicArea != null) {
+                StringBuilder builder = new StringBuilder();
+                for (var node : dicArea.childNodes()) {
+                    if (node.nodeName().equals("br")) {
+                        builder.append("\n");
+                    } else {
+                        builder.append(node.toString().replaceAll("<.*?>", "").trim());
+                    }
+                }
+                content = builder.toString().replaceAll("\n{2,}", "\n");  // 줄바꿈 2번 이상은 하나로 줄이기
+            }
         }
 
-        System.out.println("본문 내용: " + content);
 
 
         // 출처
