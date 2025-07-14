@@ -19,7 +19,7 @@ public class NewsController {
     private final NewsService newsService;
 
     @PostMapping
-    public ApiResponse<?> crawlNews(
+    public ApiResponse<NewsCrawlResponseDTO> crawlNews(
             @RequestBody NewsCrawlRequestDTO request,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
 
@@ -29,7 +29,7 @@ public class NewsController {
         //}
 
         try {
-            NewsOrigin newsOrigin = newsService.crawlAndSave(request);
+            NewsOrigin newsOrigin = newsService.crawlAndSave(request, userDetails);
 
             return ApiResponse.success(
                     new NewsCrawlResponseDTO(newsOrigin),

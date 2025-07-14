@@ -1,9 +1,10 @@
 package dgu.newsee.domain.transformednews.entity;
 
+
 public enum TransformLevel {
-    EASY("하"),
+    LOW("하"),
     MEDIUM("중"),
-    HARD("상");
+    HIGH("상");
 
     private final String kor;
 

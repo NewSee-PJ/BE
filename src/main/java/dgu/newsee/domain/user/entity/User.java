@@ -21,6 +21,7 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
     private LocalDate joinDate;
+    @Enumerated(EnumType.STRING)
     private Level level;
     private String profileImage;
     @Enumerated(EnumType.STRING)

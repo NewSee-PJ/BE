@@ -211,9 +211,9 @@ public class NewsServiceImpl implements NewsService {
         }
 
         return switch (userLevel) {
-            case HIGH -> TransformLevel.HARD;
+            case HIGH -> TransformLevel.HIGH;
             case MEDIUM -> TransformLevel.MEDIUM;
-            case LOW -> TransformLevel.EASY;
+            case LOW -> TransformLevel.LOW;
         };
     }
 }

@@ -18,7 +18,7 @@ public class NewsTransformed {
     @Enumerated(EnumType.STRING)
     private dgu.newsee.domain.crawlednews.entity.NewsStatus status; // 사용자/시스템 구분
 
-    @Column(name = "level", length = 10)
+    @Column(name = "level", length = 20)
     @Enumerated(EnumType.STRING)
     private TransformLevel level;
 
