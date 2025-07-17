@@ -15,6 +15,7 @@ import dgu.newsee.domain.words.entity.Word;
 import dgu.newsee.domain.words.repository.WordRepository;
 import dgu.newsee.global.payload.ResponseCode;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -41,9 +42,11 @@ public class TransformedNewsService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
+    @SneakyThrows
     public void requestTransformAndSaveAllLevels(Long newsId, NewsStatus status) {
         for (String level : List.of("상", "중", "하")) {
             requestTransformAndSave(newsId, level, status);
+            Thread.sleep(9000);
         }
     }
 
