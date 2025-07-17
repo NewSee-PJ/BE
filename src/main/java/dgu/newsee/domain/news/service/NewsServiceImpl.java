@@ -41,7 +41,7 @@ public class NewsServiceImpl implements NewsService {
     public ApiResponse<List<NewsDTO>> getAllNews(Long userId, String levelKor) {
         TransformLevel level = resolveUserLevel(userId, levelKor);
 
-        List<NewsOrigin> origins = newsQueryRepository.findByStatus(NewsStatus.AUTO_CRAWLED);
+        List<NewsOrigin> origins = newsQueryRepository.findByStatusOrderByCreatedAtDesc(NewsStatus.AUTO_CRAWLED);
 
         List<NewsDTO> dtos = origins.stream()
                 .map(origin -> {
